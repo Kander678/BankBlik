@@ -3,15 +3,18 @@ package ser.mil.bankblik.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ser.mil.bankblik.controller.request.UserRequest;
+import ser.mil.bankblik.domain.model.User;
 import ser.mil.bankblik.domain.service.UserService;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/User")
-public class BlikController {
+@RequestMapping("/user")
+public class UserController {
     private final UserService userService;
 
     @Autowired
-    public BlikController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
     @PostMapping("/create")
@@ -23,8 +26,17 @@ public class BlikController {
                 userRequest.balance());
     }
     @GetMapping("/allUsers")
-    public void getUsers(){
-        userService.getUsers();
+    public List<User> getUsers(){
+        return userService.getUsers();
     }
 
+    @PostMapping("/pairing")
+    public void addAccountToUser(String emailUser,String accountNumber){
+        userService.pairAccountWithUser(emailUser, accountNumber);
+    }
+
+    @PostMapping("/findUser")
+    public void findUser(@RequestBody String emailUser){
+        userService.findUserByEmail(emailUser);
+    }
 }

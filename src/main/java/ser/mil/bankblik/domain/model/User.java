@@ -2,8 +2,13 @@ package ser.mil.bankblik.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     private String id;
@@ -12,6 +17,8 @@ public class User {
     private String phone;
     private Double balance;
     private RoleStatus role;
+    @OneToMany
+    private List<Account> accounts;
 
     public User(String id, String name, String email, String phone, Double balance) {
         this.id = id;
@@ -20,6 +27,20 @@ public class User {
         this.phone = phone;
         this.balance = balance;
         role=RoleStatus.USER;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+        account.setUser(this); // ustawienie relacji dwukierunkowej
+    }
+    public void setAccounts(Account account) {
+        addAccount(account); // delegacja
+    }
+    public User() {
     }
 
     public String getId() {
