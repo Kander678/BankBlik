@@ -33,4 +33,7 @@ public class UserService {
         System.out.println("****************"+account);
         user.setAccounts(account);
     }
+    public Optional<User> findUserByEmail(String email){
+        return blikRepository.findUserByEmail(email);
+    }
 }

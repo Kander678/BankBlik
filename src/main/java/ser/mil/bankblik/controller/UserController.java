@@ -35,8 +35,8 @@ public class UserController {
         userService.pairAccountWithUser(emailUser, accountNumber);
     }
 
-//    @PostMapping("/findUser")
-//    public void findUser(@RequestBody String emailUser){
-//        userService.findUserByEmail(emailUser);
-//    }
+    @GetMapping("/findUser")
+    public User findUser(@RequestBody String emailUser){
+        return userService.findUserByEmail(emailUser).orElseThrow();
+    }
 }
