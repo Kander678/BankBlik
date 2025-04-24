@@ -23,9 +23,4 @@ public class AccountService {
     public void saveAccount(String accountNumber,double balance) {
         blikRepository.save(new Account(UUID.randomUUID().toString(),accountNumber,balance));
     }
-    public Account findByAccountNumber(String accountNumber) {
-        return blikRepository.getAccounts().stream().filter(account -> account.getAccountNumber().equals(accountNumber)).findFirst().orElseThrow(
-                () -> new RuntimeException("Account not found")
-        );
-    }
 }

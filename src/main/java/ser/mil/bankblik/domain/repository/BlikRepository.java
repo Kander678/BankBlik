@@ -1,6 +1,5 @@
 package ser.mil.bankblik.domain.repository;
 
-import org.springframework.stereotype.Component;
 import ser.mil.bankblik.domain.model.Account;
 import ser.mil.bankblik.domain.model.User;
 
@@ -12,4 +11,6 @@ public interface BlikRepository {
 
     void save(Account account);
     List<Account> getAccounts();
+
+
 }
