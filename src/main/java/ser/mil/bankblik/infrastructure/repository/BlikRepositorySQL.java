@@ -2,6 +2,7 @@ package ser.mil.bankblik.infrastructure.repository;
 
 import org.springframework.stereotype.Component;
 import ser.mil.bankblik.domain.model.Account;
+import ser.mil.bankblik.domain.model.BlikCode;
 import ser.mil.bankblik.domain.model.User;
 import ser.mil.bankblik.domain.repository.BlikRepository;
 
@@ -13,9 +14,12 @@ public class BlikRepositorySQL implements BlikRepository {
     private final UserRepositorySpringData userRepository;
     private final AccountRepositorySpringData accountRepository;
 
-    public BlikRepositorySQL(UserRepositorySpringData userRepository, AccountRepositorySpringData accountRepository) {
+    private final BlikCodeRepositorySpringData blikCodeRepository;
+
+    public BlikRepositorySQL(UserRepositorySpringData userRepository, AccountRepositorySpringData accountRepository, BlikCodeRepositorySpringData blikCodeRepository) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
+        this.blikCodeRepository = blikCodeRepository;
     }
 
     @Override
@@ -44,6 +48,24 @@ public class BlikRepositorySQL implements BlikRepository {
 
     public Optional<Account> findByAccountNumber(String accountNumber){
         return accountRepository.findByAccountNumber(accountNumber);
+    }
+
+    @Override
+    public void save(BlikCode blikCode) {
+        blikCodeRepository.save(blikCode);
+    }
+
+    @Override
+    public List<BlikCode> getBlikCodes() {
+        return (List<BlikCode>) blikCodeRepository.findAll();
+    }
+
+    public Optional<BlikCode> findByCode(int code){
+        return blikCodeRepository.findByCode(code);
+    }
+
+    public void deleteByCode(int code){
+        blikCodeRepository.deleteByCode(code);
     }
 
 }
