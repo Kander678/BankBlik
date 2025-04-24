@@ -6,6 +6,7 @@ import ser.mil.bankblik.domain.model.User;
 import ser.mil.bankblik.domain.repository.BlikRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BlikRepositorySQL implements BlikRepository {
@@ -36,4 +37,13 @@ public class BlikRepositorySQL implements BlikRepository {
     public List<Account> getAccounts() {
         return accountRepository.findAll();
     }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    public Optional<Account> findByAccountNumber(String accountNumber){
+        return accountRepository.findByAccountNumber(accountNumber);
+    }
+
 }

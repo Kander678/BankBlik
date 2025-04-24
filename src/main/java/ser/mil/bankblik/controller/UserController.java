@@ -17,6 +17,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("/create")
     public void requestUser(@RequestBody UserRequest userRequest) {
         userService.saveUser(
@@ -25,18 +26,19 @@ public class UserController {
                 userRequest.phone(),
                 userRequest.balance());
     }
+
     @GetMapping("/allUsers")
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
     @PostMapping("/pairing")
-    public void addAccountToUser(String emailUser,String accountNumber){
+    public void addAccountToUser(String emailUser, String accountNumber) {
         userService.pairAccountWithUser(emailUser, accountNumber);
     }
 
-    @PostMapping("/findUser")
-    public void findUser(@RequestBody String emailUser){
-        userService.findUserByEmail(emailUser);
+    @GetMapping("/findUser")
+    public User findUser(@RequestParam String emailUser) {
+        return userService.findUserByEmail(emailUser).orElseThrow();
     }
 }

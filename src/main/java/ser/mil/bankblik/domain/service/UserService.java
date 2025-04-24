@@ -6,35 +6,33 @@ import ser.mil.bankblik.domain.model.User;
 import ser.mil.bankblik.domain.repository.BlikRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
 public class UserService {
     private final BlikRepository blikRepository;
-    private final AccountService accountService;
 
-    public UserService(BlikRepository blikRepository, AccountService accountService) {
+    public UserService(BlikRepository blikRepository) {
         this.blikRepository = blikRepository;
-        this.accountService = accountService;
     }
 
     public void saveUser(String name, String email, String phone, Double balance) {
-       blikRepository.save(new User(UUID.randomUUID().toString(), name, email, phone, balance));
+        blikRepository.save(new User(UUID.randomUUID().toString(), name, email, phone, balance));
     }
-    public List<User> getUsers(){
+
+    public List<User> getUsers() {
         return blikRepository.getUsers();
     }
 
-    public void pairAccountWithUser(String emailUser,String accountNumber){
-        User user=findUserByEmail(emailUser);
-        Account account=accountService.findByAccountNumber(accountNumber);
+    public void pairAccountWithUser(String emailUser, String accountNumber) {
+        User user = blikRepository.findUserByEmail(emailUser).orElseThrow();
+        Account account = blikRepository.findByAccountNumber(accountNumber).orElseThrow();
         user.setAccounts(account);
+        blikRepository.save(user);
     }
-    public User findUserByEmail(String email){
-        System.out.println(blikRepository.getUsers());
-        return blikRepository.getUsers().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(
-                 () -> new RuntimeException("User not found")
-        );
 
+    public Optional<User> findUserByEmail(String email) {
+        return blikRepository.findUserByEmail(email);
     }
 }
