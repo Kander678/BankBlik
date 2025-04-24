@@ -1,6 +1,5 @@
 package ser.mil.bankblik.controller;
 
-import org.hibernate.annotations.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ser.mil.bankblik.controller.request.AccountRequest;
@@ -18,12 +17,14 @@ public class AccountController {
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
+
     @PostMapping("/create")
     public void requestAccount(@RequestBody AccountRequest accountRequest) {
         accountService.saveAccount(accountRequest.accountNumber(), accountRequest.balance());
     }
+
     @GetMapping("/getAllAccounts")
-    public List<Account> getAllAccount(){
+    public List<Account> getAllAccount() {
         return accountService.getAccounts();
     }
 

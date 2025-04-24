@@ -2,10 +2,8 @@ package ser.mil.bankblik.domain.service;
 
 import org.springframework.stereotype.Component;
 import ser.mil.bankblik.domain.model.Account;
-import ser.mil.bankblik.domain.model.User;
 import ser.mil.bankblik.domain.repository.BlikRepository;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +18,8 @@ public class AccountService {
     public List<Account> getAccounts() {
         return blikRepository.getAccounts();
     }
-    public void saveAccount(String accountNumber,double balance) {
-        blikRepository.save(new Account(UUID.randomUUID().toString(),accountNumber,balance));
+
+    public void saveAccount(String accountNumber, double balance) {
+        blikRepository.save(new Account(UUID.randomUUID().toString(), accountNumber, balance));
     }
 }

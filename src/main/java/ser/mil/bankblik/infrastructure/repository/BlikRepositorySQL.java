@@ -38,7 +38,7 @@ public class BlikRepositorySQL implements BlikRepository {
         return accountRepository.findAll();
     }
 
-    public Optional<User> findUserByEmail(String email){
+    public Optional<User> findUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
 

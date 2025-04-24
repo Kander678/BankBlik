@@ -26,7 +26,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.balance = balance;
-        role=RoleStatus.USER;
+        role = RoleStatus.USER;
     }
 
     public List<Account> getAccounts() {
@@ -35,11 +35,13 @@ public class User {
 
     public void addAccount(Account account) {
         accounts.add(account);
-        account.setUser(this); // ustawienie relacji dwukierunkowej
+        account.setUser(this);
     }
+
     public void setAccounts(Account account) {
-        addAccount(account); // delegacja
+        addAccount(account);
     }
+
     public User() {
     }
 

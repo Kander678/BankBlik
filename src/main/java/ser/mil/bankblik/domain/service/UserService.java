@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 import ser.mil.bankblik.domain.model.Account;
 import ser.mil.bankblik.domain.model.User;
 import ser.mil.bankblik.domain.repository.BlikRepository;
-import ser.mil.bankblik.infrastructure.repository.AccountRepositorySpringData;
-import ser.mil.bankblik.infrastructure.repository.UserRepositorySpringData;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,20 +18,21 @@ public class UserService {
     }
 
     public void saveUser(String name, String email, String phone, Double balance) {
-       blikRepository.save(new User(UUID.randomUUID().toString(), name, email, phone, balance));
+        blikRepository.save(new User(UUID.randomUUID().toString(), name, email, phone, balance));
     }
-    public List<User> getUsers(){
+
+    public List<User> getUsers() {
         return blikRepository.getUsers();
     }
 
-    public void pairAccountWithUser(String emailUser,String accountNumber){
-        User user=blikRepository.findUserByEmail(emailUser).get();
-        System.out.println("****************"+user);
-        Account account=blikRepository.findByAccountNumber(accountNumber).get();
-        System.out.println("****************"+account);
+    public void pairAccountWithUser(String emailUser, String accountNumber) {
+        User user = blikRepository.findUserByEmail(emailUser).orElseThrow();
+        Account account = blikRepository.findByAccountNumber(accountNumber).orElseThrow();
         user.setAccounts(account);
+        blikRepository.save(user);
     }
-    public Optional<User> findUserByEmail(String email){
+
+    public Optional<User> findUserByEmail(String email) {
         return blikRepository.findUserByEmail(email);
     }
 }

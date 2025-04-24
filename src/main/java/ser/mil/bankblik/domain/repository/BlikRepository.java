@@ -8,11 +8,14 @@ import java.util.Optional;
 
 public interface BlikRepository {
     void save(User user);
+
     List<User> getUsers();
 
     void save(Account account);
+
     List<Account> getAccounts();
 
     Optional<User> findUserByEmail(String email);
+
     Optional<Account> findByAccountNumber(String accountNumber);
 }
