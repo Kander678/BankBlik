@@ -14,13 +14,9 @@ import java.util.UUID;
 @Component
 public class UserService {
     private final BlikRepository blikRepository;
-    private final UserRepositorySpringData userRepository;
-    private final AccountRepositorySpringData accountRepository;
 
-    public UserService(BlikRepository blikRepository, UserRepositorySpringData userRepository, AccountRepositorySpringData accountRepository) {
+    public UserService(BlikRepository blikRepository) {
         this.blikRepository = blikRepository;
-        this.userRepository = userRepository;
-        this.accountRepository = accountRepository;
     }
 
     public void saveUser(String name, String email, String phone, Double balance) {
@@ -31,8 +27,10 @@ public class UserService {
     }
 
     public void pairAccountWithUser(String emailUser,String accountNumber){
-        User user=blikRepository.findUserByEmail(emailUser).orElseThrow();
-        Account account=accountRepository.findByAccountNumber(accountNumber).orElseThrow();
+        User user=blikRepository.findUserByEmail(emailUser).get();
+        System.out.println("****************"+user);
+        Account account=blikRepository.findByAccountNumber(accountNumber).get();
+        System.out.println("****************"+account);
         user.setAccounts(account);
     }
 }
