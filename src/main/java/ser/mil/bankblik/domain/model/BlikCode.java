@@ -11,16 +11,15 @@ public class BlikCode {
     @Id
     private String id;
     private int code;
-    private double amount;
+
 
     private LocalDateTime generatedAt;
     @ManyToOne
     private Account sourceAccount;
 
-    public BlikCode(String id, int code, double amount, Account sourceAccount) {
+    public BlikCode(String id, int code, Account sourceAccount) {
         this.id = id;
         this.code = code;
-        this.amount = amount;
         this.sourceAccount = sourceAccount;
         generatedAt = LocalDateTime.now();
     }
@@ -37,10 +36,6 @@ public class BlikCode {
         this.code = code;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
     public void setSourceAccount(Account sourceAccount) {
         this.sourceAccount = sourceAccount;
     }
@@ -51,10 +46,6 @@ public class BlikCode {
 
     public int getCode() {
         return code;
-    }
-
-    public double getAmount() {
-        return amount;
     }
 
     public LocalDateTime getGeneratedAt() {

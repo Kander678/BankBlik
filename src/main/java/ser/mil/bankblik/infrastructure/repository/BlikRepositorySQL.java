@@ -1,9 +1,7 @@
 package ser.mil.bankblik.infrastructure.repository;
 
 import org.springframework.stereotype.Component;
-import ser.mil.bankblik.domain.model.Account;
-import ser.mil.bankblik.domain.model.BlikCode;
-import ser.mil.bankblik.domain.model.User;
+import ser.mil.bankblik.domain.model.*;
 import ser.mil.bankblik.domain.repository.BlikRepository;
 
 import java.util.List;
@@ -16,10 +14,15 @@ public class BlikRepositorySQL implements BlikRepository {
 
     private final BlikCodeRepositorySpringData blikCodeRepository;
 
-    public BlikRepositorySQL(UserRepositorySpringData userRepository, AccountRepositorySpringData accountRepository, BlikCodeRepositorySpringData blikCodeRepository) {
+    private final OrganizationRepositorySpringData organizationRepository;
+
+    private final BlikTransactionRepositorySpringData blikTransactionRepository;
+    public BlikRepositorySQL(UserRepositorySpringData userRepository, AccountRepositorySpringData accountRepository, BlikCodeRepositorySpringData blikCodeRepository, OrganizationRepositorySpringData organizationRepository, BlikTransactionRepositorySpringData blikTransactionRepository) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.blikCodeRepository = blikCodeRepository;
+        this.organizationRepository = organizationRepository;
+        this.blikTransactionRepository = blikTransactionRepository;
     }
 
     @Override
@@ -67,5 +70,25 @@ public class BlikRepositorySQL implements BlikRepository {
     public void deleteByCode(int code){
         blikCodeRepository.deleteByCode(code);
     }
+
+    @Override
+    public void save(Organization organization) {
+        organizationRepository.save(organization);
+    }
+
+    @Override
+    public void save(BlikTransaction blikTransaction) {
+        blikTransactionRepository.save(blikTransaction);
+    }
+
+    public Optional<Organization> findByName(String name){
+        return organizationRepository.findByName(name);
+    }
+
+    @Override
+    public BlikTransaction getBlikTransactionById(String id) {
+        return blikTransactionRepository.getBlikTransactionById(id);
+    }
+
 
 }

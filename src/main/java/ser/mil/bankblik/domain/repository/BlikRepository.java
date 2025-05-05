@@ -1,8 +1,6 @@
 package ser.mil.bankblik.domain.repository;
 
-import ser.mil.bankblik.domain.model.Account;
-import ser.mil.bankblik.domain.model.BlikCode;
-import ser.mil.bankblik.domain.model.User;
+import ser.mil.bankblik.domain.model.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,4 +26,10 @@ public interface BlikRepository {
 
     void deleteByCode(int code);
 
+    void save(Organization organization);
+    void save(BlikTransaction blikTransaction);
+
+    Optional<Organization> findByName(String name);
+
+    BlikTransaction getBlikTransactionById(String id);
 }
