@@ -1,5 +1,6 @@
 package ser.mil.bankblik.domain.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import ser.mil.bankblik.domain.model.Account;
 import ser.mil.bankblik.domain.model.BlikCode;
@@ -12,9 +13,11 @@ import java.util.UUID;
 @Component
 public class BlikCodeService {
     private final BlikRepository blikRepository;
+    private final BlikTransactionService transactionService;
 
-    public BlikCodeService(BlikRepository blikRepository) {
+    public BlikCodeService(BlikRepository blikRepository, BlikTransactionService transactionService) {
         this.blikRepository = blikRepository;
+        this.transactionService = transactionService;
     }
 
     public int saveBlikCode(String accountName) {
@@ -36,25 +39,14 @@ public class BlikCodeService {
         blikRepository.save(transaction);
     }
 
+
     public void acceptingBlikCode(String transactionId) {
         BlikTransaction transaction = blikRepository.getBlikTransactionById(transactionId);
         if (transaction.getStatus() != TransactionStatus.AWAITING_CONFIRMATION) {
             throw new RuntimeException();
         }
 
-        double amount = transaction.getAmount();
-        Account accountSource = transaction.getSourceAccount();
-        Account accountDestination = transaction.getDestinationAccount();
-        if (accountSource.getBalance() < amount) {
-            throw new RuntimeException();
-        }
-
-        accountSource.setBalance(accountSource.getBalance() + amount);
-        accountDestination.setBalance(accountDestination.getBalance() - amount);
-
-        transaction.setSourceAccount(accountSource);
-        transaction.setDestinationAccount(accountDestination);
-
+        transactionService.performTransaction(transaction);
         transaction.setStatus(TransactionStatus.SUCCESS);
         blikRepository.save(transaction);
     }

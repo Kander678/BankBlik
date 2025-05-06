@@ -32,4 +32,6 @@ public interface BlikRepository {
     Optional<Organization> findByName(String name);
 
     BlikTransaction getBlikTransactionById(String id);
+
+    void clearDatabase();
 }

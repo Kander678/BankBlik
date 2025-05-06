@@ -1,5 +1,6 @@
 package ser.mil.bankblik.infrastructure.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import ser.mil.bankblik.domain.model.*;
 import ser.mil.bankblik.domain.repository.BlikRepository;
@@ -17,6 +18,7 @@ public class BlikRepositorySQL implements BlikRepository {
     private final OrganizationRepositorySpringData organizationRepository;
 
     private final BlikTransactionRepositorySpringData blikTransactionRepository;
+
     public BlikRepositorySQL(UserRepositorySpringData userRepository, AccountRepositorySpringData accountRepository, BlikCodeRepositorySpringData blikCodeRepository, OrganizationRepositorySpringData organizationRepository, BlikTransactionRepositorySpringData blikTransactionRepository) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
@@ -49,7 +51,7 @@ public class BlikRepositorySQL implements BlikRepository {
         return userRepository.findUserByEmail(email);
     }
 
-    public Optional<Account> findByAccountNumber(String accountNumber){
+    public Optional<Account> findByAccountNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber);
     }
 
@@ -63,11 +65,11 @@ public class BlikRepositorySQL implements BlikRepository {
         return (List<BlikCode>) blikCodeRepository.findAll();
     }
 
-    public Optional<BlikCode> findByCode(int code){
+    public Optional<BlikCode> findByCode(int code) {
         return blikCodeRepository.findByCode(code);
     }
 
-    public void deleteByCode(int code){
+    public void deleteByCode(int code) {
         blikCodeRepository.deleteByCode(code);
     }
 
@@ -81,7 +83,7 @@ public class BlikRepositorySQL implements BlikRepository {
         blikTransactionRepository.save(blikTransaction);
     }
 
-    public Optional<Organization> findByName(String name){
+    public Optional<Organization> findByName(String name) {
         return organizationRepository.findByName(name);
     }
 
@@ -89,6 +91,16 @@ public class BlikRepositorySQL implements BlikRepository {
     public BlikTransaction getBlikTransactionById(String id) {
         return blikTransactionRepository.getBlikTransactionById(id);
     }
+
+    @Transactional
+    public void clearDatabase() {
+        blikTransactionRepository.deleteAll();
+        blikCodeRepository.deleteAll();
+        userRepository.deleteAll();
+        accountRepository.deleteAll();
+        organizationRepository.deleteAll();
+    }
+
 
 
 }

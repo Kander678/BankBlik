@@ -10,6 +10,7 @@ import ser.mil.bankblik.domain.service.BlikCodeService;
 public class BlikCodeController {
     private final BlikCodeService blikCodeService;
 
+
     @Autowired
     public BlikCodeController(BlikCodeService blikCodeService) {
         this.blikCodeService = blikCodeService;

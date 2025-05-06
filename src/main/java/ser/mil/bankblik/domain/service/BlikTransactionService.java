@@ -34,5 +34,17 @@ public class BlikTransactionService {
         return new BlikTransactionResponse(transactionId, blikCodePath);
     }
 
+    public void performTransaction(BlikTransaction transaction) {
+        double amount = transaction.getAmount();
+        Account sourceAccount = transaction.getSourceAccount();
+        Account destinationAccount = transaction.getDestinationAccount();
+
+        if (sourceAccount.getBalance() < amount) throw new RuntimeException("Insufficient funds");
+
+        sourceAccount.setBalance(sourceAccount.getBalance() - amount);
+        destinationAccount.setBalance(destinationAccount.getBalance() + amount);
+    }
+
+
 }
 
